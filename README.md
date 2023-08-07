@@ -1,17 +1,12 @@
 # Steps to run the project
 
-## 1. Build the docker image
+## 1. Build the image and start the container
 
-`docker build .`
+`./start.sh`
 
-## 2. Run the docker image
+## 2. Create the application
 
-`docker compose up`
-
-## 3. Alternatively, you can build and run the docker image in one command
-
-`docker compose up -d --build`
-
+`docker compose exec web django-admin startapp <app_name>`
 ## 3. Access the application via a web browser
 
 http://127.0.0.1:8000
@@ -24,26 +19,15 @@ http://127.0.0.1:8000
 
 `python manage.py shell`
 
-## 6. Exit the python shell
+Alternatively, you can access the python shell directly from the host machine:
 
-exit()
+`docker compose exec web python manage.py shell`
 
-## 7. Exit the container
-
-exit
-## 8. Create a superuser
+## 6. Create a superuser
 
 - `docker compose exec web python manage.py migrate`
 - `docker compose run web python manage.py createsuperuser`
 
-## 9. Stop the docker container
+## 7. Stop the containers and remove the volumes and images
 
-`Ctrl + C` or `docker compose down`
-
-## 10. Optional: Stop the docker container and remove the volume and images
-
-`docker compose down --rmi all --volumes`
-
-## References
-
-[Django, Docker, and PostgreSQL Tutorial](https://learndjango.com/tutorials/django-docker-and-postgresql-tutorial)
+`./stop.sh`
