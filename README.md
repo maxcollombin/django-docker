@@ -1,33 +1,39 @@
 # Steps to run the project
 
-## 1. Build the image and start the container
+## 1. Copy the .env.example file to .env and edit the variables
 
-`./start.sh`
+`cp .env.example .env`
+## 2. Build the image and start the container
 
-## 2. Create the application
+`source .env && ./start.sh`
+
+## 3. Create the application
 
 `docker compose exec web django-admin startapp <app_name>`
-## 3. Access the application via a web browser
+## 4. Access the application via a web browser
 
 http://127.0.0.1:8000
 
-## 4. Access the container in interactive mode
+## 5. Create the django application and play with it
 
-`docker exec -it django-docker-web-1 /bin/bash`
+`docker compose exec web django-admin startapp <app_name>`
 
-## 5. Access the python shell
-
-`python manage.py shell`
-
-Alternatively, you can access the python shell directly from the host machine:
-
-`docker compose exec web python manage.py shell`
-
-## 6. Create a superuser
-
-- `docker compose exec web python manage.py migrate`
-- `docker compose run web python manage.py createsuperuser`
-
-## 7. Stop the containers and remove the volumes and images
+## 6. Stop the containers and remove the volumes and images
 
 `./stop.sh`
+
+## Other useful commands
+
+```shell
+# Access the web container
+
+docker exec -it django-docker-web-1 /bin/bash
+
+# Access the python shell
+
+docker compose exec web python manage.py shell
+
+# Create a superuser
+
+docker compose exec web python manage.py migrate && docker compose run web python manage.py createsuperuser
+```
