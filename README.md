@@ -1,49 +1,39 @@
 # Steps to run the project
 
-## 1. Build the docker image
+## 1. Copy the .env.example file to .env and edit the variables
 
-`docker build .`
+`cp .env.example .env`
+## 2. Build the image and start the container
 
-## 2. Run the docker image
+`source .env && ./start.sh`
 
-`docker compose up`
+## 3. Create the application
 
-## 3. Alternatively, you can build and run the docker image in one command
-
-`docker compose up -d --build`
-
-## 3. Access the application via a web browser
+`docker compose exec web django-admin startapp <app_name>`
+## 4. Access the application via a web browser
 
 http://127.0.0.1:8000
 
-## 4. Access the container in interactive mode
+## 5. Create the django application and play with it
 
-`docker exec -it django-docker-web-1 /bin/bash`
+`docker compose exec web django-admin startapp <app_name>`
 
-## 5. Access the python shell
+## 6. Stop the containers and remove the volumes and images
 
-`python manage.py shell`
+`./stop.sh`
 
-## 6. Exit the python shell
+## Other useful commands
 
-exit()
+```shell
+# Access the web container
 
-## 7. Exit the container
+docker exec -it django-docker-web-1 /bin/bash
 
-exit
-## 8. Create a superuser
+# Access the python shell
 
-- `docker compose exec web python manage.py migrate`
-- `docker compose run web python manage.py createsuperuser`
+docker compose exec web python manage.py shell
 
-## 9. Stop the docker container
+# Create a superuser
 
-`Ctrl + C` or `docker compose down`
-
-## 10. Optional: Stop the docker container and remove the volume and images
-
-`docker compose down --rmi all --volumes`
-
-## References
-
-[Django, Docker, and PostgreSQL Tutorial](https://learndjango.com/tutorials/django-docker-and-postgresql-tutorial)
+docker compose exec web python manage.py migrate && docker compose run web python manage.py createsuperuser
+```
